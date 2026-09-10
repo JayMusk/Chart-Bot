@@ -1,48 +1,66 @@
-﻿using System;
+﻿using System.Threading;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ChartBot 
 {
     class Response
     {
         public string input;
-        public Response(string text) {
-            input = text;
-            Console.WriteLine("Bot: Hello ");
+        //constructor to initialize the Response class by print an empty line in yellow color to the console.
+        public Response() { 
+            Console.WriteLine("");
         }
-        public ~Response{
-            Console.WriteLine("Exiting Application")
-        }
-        public void GetResponse(string input)
+       
+        public void ShowError(string message)
         {
-                input = input.ToLower();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
 
-            if (input.Contains("hello") || input.Contains("hi"))
+        public void Typing(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            //typing effect
+            //foreach loop to iterate through each character in the message string and print it to the console with a delay.
+            foreach (char i in message)
             {
-                Console.WriteLine("Hello! Welcome to the Cyber Security Awareness Bot.");
+                //The program should sleep for 15 milliseconds after each character is printed to the console. This will create a typing effect for the bot's response.
+                Console.Write(i);
+                Thread.Sleep(15);
             }
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+        public string GetResponse(string input)
+        {
+            input = input.ToLower();
+
+            if (input.Contains("hello"))
+
+                return "Hello! Welcome to the Cyber Security Awareness Bot.";
 
             else if (input.Contains("how are you"))
-            {
-                Console.WriteLine("I'm doing well. How can I help you?");
-            }
+
+                return "I'm doing well. How can I help you?";
 
             else if (input.Contains("password"))
-            {
-                Console.WriteLine("Use strong passwords and never share them.");
-            }
+
+                return "Password Safety Tip: Use at least 12 characters with uppercase, lowercase, numbers and symbols. Never reuse passwords across sites!";
 
             else if (input.Contains("phishing"))
-            {
-                Console.WriteLine("Be careful of fake emails and suspicious links.");
-            }
 
+                return "Be careful of fake emails and suspicious links.";
+
+            else if (input.Contains("safe browsing"))
+
+                return "Safe Browsing Tip: Always check the URL for HTTPS and be cautious of suspicious websites.";
+
+            //default for unrecognized input.
             else
-            {
-                void GetResponse(string input)
-                {
-                    Console.WriteLine("I didn't quite understand that. Could you rephrase?");
-                }
-            }
+                return "I didn’t quite understand that. Could you rephrase?";
+
         }
     }
 }
